@@ -4,6 +4,7 @@ import { AuthContext } from "../contexts/UserContext";
 
 const Navbar = () => {
   const { user } = useContext(AuthContext);
+  console.log(user);
   return (
     <header className="text-gray-600 body-font">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -32,7 +33,7 @@ const Navbar = () => {
 
           {/* LogOut */}
 
-          {user && user.uid ? (
+          {user?.email ? (
             <>
               {/* Profile */}
               <Link to="/profile" className="mr-5 hover:text-gray-900">

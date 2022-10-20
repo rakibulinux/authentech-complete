@@ -1,4 +1,25 @@
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../contexts/UserContext";
+
 const Login = () => {
+  const { user, loginUser } = useContext(AuthContext);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    loginUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <div className="flex justify-center items-center pt-8">
       <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900">
@@ -9,6 +30,7 @@ const Login = () => {
           </p>
         </div>
         <form
+          onSubmit={handleSubmit}
           noValidate=""
           action=""
           className="space-y-6 ng-untouched ng-pristine ng-valid"
@@ -95,9 +117,9 @@ const Login = () => {
         </div>
         <p className="px-6 text-sm text-center text-gray-400">
           Don't have an account yet?{" "}
-          <a href="#" to="/register" className="hover:underline text-gray-600">
+          <Link to="/register" className="hover:underline text-gray-600">
             Sign up
-          </a>
+          </Link>
           .
         </p>
       </div>
