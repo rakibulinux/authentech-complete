@@ -20,6 +20,7 @@ const Register = () => {
         updateUser(name)
           .then(() => {
             toast.success("Success profile update", { autoClose: 500 });
+            form.reset();
             verifyEmail()
               .then(() => {
                 toast.success("Please check your email to verification");

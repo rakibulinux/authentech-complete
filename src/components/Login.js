@@ -1,9 +1,15 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { AuthContext } from "../contexts/UserContext";
 
 const Login = () => {
-  const { user, loginUser } = useContext(AuthContext);
+  const { user, loginUser, setLoading } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/";
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -15,9 +21,18 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
+        form.reset();
+        if (user?.emailVerified) {
+          navigate(from, { replace: true });
+        } else {
+          toast.warning("Please verify your email");
+        }
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
   return (

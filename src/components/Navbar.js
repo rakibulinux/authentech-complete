@@ -3,8 +3,17 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/UserContext";
 
 const Navbar = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
   console.log(user);
+
+  const handleSignOut = () => {
+    logOut()
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <header className="text-gray-600 body-font">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -44,7 +53,10 @@ const Navbar = () => {
               <Link to="/wallet" className="mr-5 hover:text-gray-900">
                 Wallet
               </Link>
-              <button className="inline-flex items-center bg-gray-300 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
+              <button
+                onClick={handleSignOut}
+                className="inline-flex items-center bg-gray-300 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0"
+              >
                 Logout
                 <svg
                   fill="none"
